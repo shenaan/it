@@ -1,0 +1,28 @@
+/* Basic typography style for text*/
+
+html {
+  // This defines what 1 rem is
+  font-size: $baseFontSizePixel;
+}
+
+h2, .h2 {
+  font-size: 2.5rem; //30px
+  font-weight: 100;
+  line-height: 1;
+  text-transform: uppercase;
+
+  @include respond-to(md) {
+    font-size: 5rem; //60px
+  }
+}
+
+
+
+p {
+  font-size: 1rem; //12px
+  font-weight: 300;
+
+  &:last-of-type{
+    margin-bottom: 0;
+  }
+}

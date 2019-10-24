@@ -1,0 +1,11 @@
+.img-fallback{
+  background-color: #c8c9c7;
+
+  &:before{
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+// formula: calc((100% * height) / width)

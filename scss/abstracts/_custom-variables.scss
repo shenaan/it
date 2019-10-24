@@ -1,0 +1,56 @@
+/// Font families
+$Libre: "Libre Franklin",sans-serif;
+
+/// Base font family
+$baseFontFamily: $Libre;
+
+/// Base font size (rem), line height and letter spacing
+@mixin font-size($size:12) {
+  font-size: $size * 1px;
+  font-size: ($size / $baseFontSize) * 1rem;
+}
+
+$baseFontSize: 12;
+$baseFontSizePixel: $baseFontSize * 1px;
+
+$baseLineHeight: 1.4;
+$baseLetterSpacing: 0;
+$textColor: #c69c6d;
+$bodyBackground: #000;
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+        'xs': screen and
+    (
+      min-width: 572px
+    ),
+        'sm': screen and
+    (
+      min-width: 768px
+    ),
+        'md': screen and
+    (
+      min-width: 1025px
+    ),
+        'lg': screen and
+    (
+      min-width: 1280px
+    ),
+        'xl': screen and
+    (
+      min-width: 1440px
+    ),
+        'xxl': screen and
+    (
+      min-width: 1920px
+    )
+) !default;
+
+/// defaul img and fonts location
+$fontsUrl: '../fonts/';
+$imgUrl: '../img/';
+
+

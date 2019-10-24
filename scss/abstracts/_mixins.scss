@@ -1,0 +1,403 @@
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self [false] - Whether or not to include current selector
+/// @link https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+@mixin on-event($self: false) {
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  }
+}
+
+/// Make a context based selector a little more friendly
+/// @author Hugo Giraudel
+/// @param {String} $context
+@mixin when-inside($context) {
+  #{$context} & {
+    @content;
+  }
+}
+
+@mixin ieStyles  {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+//-------------------Placeholder-------------------------*/
+
+@mixin input-placeholder {
+  &.placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}
+
+//---------------LAYOUT---------------*/
+@mixin center {
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+@mixin horizontally-centered {
+  left: 0;
+  right: 0;
+}
+
+@mixin vertically-centered {
+  top: 0;
+  bottom: 0;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+//--------------------BREAKPOINTS------------------*/
+
+/// Mixin to manage responsive breakpoints
+/// @author Hugo Giraudel
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $breakpoints
+@mixin respond-to($breakpoint) {
+  //// If the key exists in the map
+  @if map-has-key($breakpoints, $breakpoint) {
+    //  // Prints a media query based on the value
+    @media #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  }
+    //// If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    +"Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
+
+@mixin respond-min($min) {
+  @media screen and (min-width: $min+px) {
+    @content;
+  }
+}
+
+@mixin respond-min-max($min, $max) {
+  @media screen and (min-width: $min+px) and (max-width: $max+px) {
+    @content;
+  }
+}
+
+@mixin respond-max($max) {
+  @media screen and (max-width: $max+px) {
+    @content;
+  }
+}
+
+//--------------TRANSITIONS AND ANIMATIONS----------------*/
+@mixin transition($property) {
+  -webkit-transition: ($property);
+  -o-transition: ($property);
+  transition: ($property);
+}
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+@mixin transform-origin($val) {
+  -webkit-transform-origin: $val;
+  -ms-transform-origin: $val;
+  transform-origin: $val;
+}
+
+@mixin transform-scale($val1, $val2) {
+  -webkit-transform: scale($val1, $val2);
+  -ms-transform: scale($val1, $val2);
+  transform: scale($val1, $val2);
+}
+
+@mixin translateX($val) {
+  -webkit-transform: translateX($val);
+  -ms-transform: translateX($val);
+  transform: translateX($val);
+}
+
+@mixin translateY($val) {
+  -webkit-transform: translateY($val);
+  -ms-transform: translateY($val);
+  transform: translateY($val);
+}
+
+@mixin rotate($angle) {
+  -ms-transform: rotate($angle);
+  -webkit-transform: rotate($angle);
+  transform: rotate($angle);
+}
+
+@mixin skew($x, $y) {
+  -ms-transform: skew($x, $y);
+  -webkit-transform: skew($x, $y);
+  transform: skew($x, $y);
+}
+
+@mixin scaleTranslate($scaleX,$scaleY,$translateX,$translateY) {
+  -ms-transform: scale($scaleX, $scaleY) translateX($translateX) translateY($translateY);
+  -webkit-transform: scale($scaleX, $scaleY) translateX($translateX) translateY($translateY);
+  transform: scale($scaleX, $scaleY) translateX($translateX) translateY($translateY);
+}
+
+@mixin backface-visibility-hidden() {
+  -webkit-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -mos-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@mixin animation-name($name) {
+  -webkit-animation-name: $name;
+  animation-name: $name;
+}
+
+@mixin animation-duration($duration) {
+  -webkit-animation-duration: $duration;
+  animation-duration: $duration;
+}
+
+@mixin animation-iteration-count($count) {
+  -webkit-animation-iteration-count: $count;
+  animation-iteration-count: $count;
+}
+
+@mixin animation-timing-function($function) {
+  -webkit-animation-timing-function: $function;
+  animation-timing-function: $function;
+}
+
+@mixin animation-delay($delay) {
+  -webkit-animation-delay: $delay;
+  animation-delay: $delay;
+}
+
+@mixin animation-fill-mode($fill) {
+  -webkit-animation-fill-mode: $fill;
+  animation-fill-mode: $fill;
+}
+
+@mixin animation($name,$duration,$delay : 0,$loopTime : 1) {
+  @include animation-name($name);
+  @include animation-duration($duration + s);
+  @include animation-iteration-count($loopTime);
+  @include animation-timing-function(cubic-bezier(0.445, 0.05, 0.55, 0.95));
+  @include animation-delay($delay + s);
+}
+
+// ---------- flexbox ---------
+@mixin display-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex
+}
+
+@mixin flex-wrap {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+@mixin flex-nowrap {
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+@mixin display-inline-flex {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin jc-flex-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+@mixin jc-flex-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+@mixin jc-space-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+@mixin jc-space-around {
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+@mixin jc-space-evenly {
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+@mixin jc-flex-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+@mixin ai-flex-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+@mixin ai-flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+@mixin ai-flex-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+@mixin ai-space-between {
+  -webkit-box-align: space-between;
+  -ms-flex-align: space-between;
+  align-items: space-between;
+}
+
+@mixin ai-space-around {
+  -webkit-box-align: space-around;
+  -ms-flex-align: space-around;
+  align-items: space-around;
+}
+
+@mixin ai-stretch {
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+@mixin ac-flex-center {
+  -ms-flex-line-pack: center;
+  align-content: center;
+}
+
+@mixin ac-flex-start {
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
+}
+
+@mixin ac-flex-end {
+  -ms-flex-line-pack: end;
+  align-content: flex-end;
+}
+
+@mixin ac-space-around {
+  -ms-flex-line-pack: distribute;
+  align-content: space-around;
+}
+
+@mixin ac-space-between {
+  -ms-flex-line-pack: space-between;
+  align-content: space-between;
+}
+
+@mixin flex($prop) {
+  -webkit-box-flex: $prop;
+  -ms-flex: $prop;
+  flex: $prop;
+}
+
+@mixin flex-order($prop) {
+  -webkit-box-ordinal-group: $prop;
+  -moz-box-ordinal-group: $prop;
+  -ms-flex-order: $prop;
+  -webkit-order: $prop;
+  order: $prop;
+}
+
+@mixin flex-direction-row {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;;
+  -ms-flex-direction: row;;
+  flex-direction: row;
+}
+
+@mixin flex-direction-col {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+//-----------------CUSTOM MIXINS-----------------------*/
+
+@mixin link-animation-timing() {
+  -webkit-animation-timing-function: cubic-bezier(.39, .6, .71, .94);
+  animation-timing-function: cubic-bezier(.39, .6, .71, .94);
+}
+
+@mixin transition-03() {
+  @include transition(0.3s all ease-in-out);
+}
+
+@mixin transition-04() {
+  @include transition(0.4s all ease-in-out);
+}
+
+@mixin transition-custom(){
+  @include transition(all 800ms cubic-bezier(0.19, 1, 0.22, 1));
+}
+
+@mixin transition-homepage(){
+  @include transition(all 1000ms cubic-bezier(0.19, 1, 0.22, 1));
+}
+
+@mixin imageCover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  font-family: 'object-fit: cover;';
+}
+
