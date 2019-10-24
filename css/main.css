@@ -1449,8 +1449,8 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 50vw;
-  height: 60vh;
+  width: 90vw;
+  height: 80vh;
   background-color: black;
   -webkit-transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
   -o-transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
@@ -1470,6 +1470,10 @@ body {
     -webkit-transform: scale(1, 1);
     -ms-transform: scale(1, 1);
     transform: scale(1, 1); }
+  @media (min-width: 1025px) {
+    .modal-wrap {
+      width: 50vw;
+      height: 60vh; } }
 
 .modal__close-btn {
   position: absolute;
